@@ -1,16 +1,13 @@
-//
-// 温度が記録されたCSVファイルを表示するjQueryプラグイン
-//
-
-(function($){ 
+//プラグイン
+(function($){
   $.fn.thermometer = function( method ) {
       if ( methods[method] ) {
         return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-      } 
+      }
       else if ( typeof method === 'object' || ! method ) {
-           return methods.init.apply( this, arguments ); 
-      } 
-      else { 
+           return methods.init.apply( this, arguments );
+      }
+      else {
         $.error( 'Method ' +  method + ' does not exist on jQuery.tooltip' );
       }
   };
@@ -20,16 +17,117 @@
                   minute_span: 60,
                   max_temp:    15,
                   temp_date:   ""
-                 };
+  };
+
+  var messages = {
+    col_3:      ["time","temp","hum"],
+    col_5:      ["date","9","12","15","18","21"],
+    now_title:  "Now",
+    year_month: "Year/Month",
+    month_days: "Month/Days",
+    click_to:   "Click somedays ..."
+  };
+
+  //Japanese
+  var messages = {
+    col_3:  ["時間","温度","湿度"],
+    col_5:  ["日付","9時","12時","15時","18時","21時"],
+    now_title: "現在温度",
+    year_month: "年月",
+    month_days: "日別一覧",
+    click_to:   "日付をクリック"
+  };
+
+  //html createor
+  var html    =  {
+    panel_heading: function(text){
+                     return $("<div>").addClass("panel-heading")
+                                      .text(text);
+                   },
+    panel_body:    function(child){
+                     return $("<div>").addClass("panel-body")
+                                      .html(child);
+                   },
+
+    h3_title:      function(text){
+                     return  $("<h3>").addClass("temp_date")
+                                     .text(text);
+                   },
+    table:         function(){
+                     return $("<table>").addClass("table table-striped");
+                   },
+    thead_3col:    function(){
+                     var columns = messages.col_3;
+                     var tr = $("<tr>");
+                     for(var i = 0;i < columns.length;i++){
+                       tr.append($("<th>").text(columns[i]));
+                     }
+                     return $("<thead>").append(tr);
+                   },
+    thead_5col:    function(){
+                     var columns = messages.col_5;
+                     var tr = $("<tr>");
+                     for(var i = 0;i < columns.length;i++){
+                       tr.append($("<th>").text(columns[i]));
+                     }
+                     return $("<thead>").append(tr);
+                   },
+    tbody:         function(){
+                     return $("<tbody>");
+                   },
+    table_3col:    function(){
+                     var table = html.table();
+                     return table.append(html.thead_3col)
+                                 .append(html.tbody);
+                   },
+    table_5col:    function(){
+                     var table = html.table();
+                     return table.append(html.thead_5col)
+                                 .append(html.tbody);
+                   },
+    now_p:         function(){
+                     return $("<p>").addClass("text_primary");
+                   },
+    last_temp:     function(){
+                     return $("<strong>").attr("id","last_temp")
+                                         .addClass("text-primary")
+                                         .attr("style","font-size: 6em;")
+                                         .add($("<small>").text("℃ ")
+                                                          .addClass("text-primary")
+                                                          .attr("style","font-size: 2em;")
+
+                                          );
+                   },
+    last_hum:      function(){
+                     return $("<strong>").attr("id","last_hum")
+                                         .addClass("text-primary")
+                                         .attr("style","font-size: 6em;")
+                                         .add($("<small>").text("% ")
+                                                          .addClass("text-primary")
+                                                          .attr("style","font-size: 2em;")
+                                          );
+                   }
+  };
 
   var methods ={
     init:        function(options){ },
     minutes:     function(options){
                    return this.each(function(){
                      var setting = set_option($(this),options);
-                     $(this).find("h3.temp_date").text(date_to_string(setting.temp_date,"-"));
-                     $(this).find("div.panel-heading").text(date_to_string(setting.temp_date,"-"));
+                     //panel-heading
+                     var title  = date_to_string(setting.temp_date,"-");
+                     var panel_heading = html.panel_heading(title);
+                     $(this).append(panel_heading);
 
+                     //panel-body
+                     var h3 = html.h3_title(title);
+                     var panel_body    = html.panel_body(h3);
+                     $(this).append(panel_body);
+
+                     //table
+                     $(this).append(html.table_3col);
+
+                     //show data
                      $.ajax({url: setting.file_name,
                              type: "get",
                              cache: false})
@@ -38,12 +136,32 @@
                         var tr = create_tr_minute(csv,setting);
                         tbody.html(tr);
                       });
-                     
-                   });
+                   }); // return this.each(function(){
                  },//minutes:     function(options){
+
    last_temp:    function(options){
                    return this.each(function(){
                      var setting = set_option($(this),options);
+
+                     var title = messages.now_title;
+                     var panel_heading = html.panel_heading(title);
+                     $(this).append(panel_heading);
+
+                     //panel-body
+                     var panel_body    = html.panel_body(h3);
+                     var h3 = html.h3_title(title)
+                                  .addClass("text-primary");
+                     panel_body.append(h3);
+
+                     //panel-body
+                     var now_p = html.now_p();
+                     now_p.append(html.last_temp())
+                          .append(html.last_hum());
+                     panel_body.append(now_p);
+
+                     $(this).append(panel_body);
+
+                     //show data
                      $.ajax({url: setting.file_name,
                              type: "get",
                              cache: false})
@@ -58,7 +176,7 @@
                         }
                         row_ary = last_ary.split(",");
                         var nitiji = row_ary[1] + " "+row_ary[2] + ":" + row_ary[3];
-                        $(this).find("h3#last_time").text(nitiji);
+                        $(this).find("h3").text(nitiji);
                         $(this).find("strong#last_temp")
                                .text(Math.floor(row_ary[4]));
                         $(this).find("strong#last_hum")
@@ -77,6 +195,21 @@
    month_list:   function(){
                    var $this = this;
                    return this.each(function(){
+                     //panel-heading
+                     var title = messages.year_month;
+                     var panel_heading = html.panel_heading(title);
+                     $(this).append(panel_heading);
+
+                     //panel-body
+                     var panel_body    = html.panel_body();
+                     $(this).append(panel_body);
+
+                     //table
+                     var table = html.table();
+                     table.append(html.tbody());
+                     $(this).append(table);
+
+                     //show data
                      $.ajax({url: "month_list.html",
                              type: "get",
                              cache: false})
@@ -108,6 +241,23 @@
                        setting.nen_tuki = nen + "" + tuki;
                        var setting = set_option($(this),setting);
                      }
+
+                     //panel-heading
+                     //var title = "Month/days";
+                     //var title = "日別一覧";
+                     var title = messages.month_days;
+                     var panel_heading = html.panel_heading(title);
+                     $(this).append(panel_heading);
+
+                     //panel-body
+                     var h3 = html.h3_title(messages.click_to);
+                     var panel_body    = html.panel_body(h3);
+                     $(this).append(panel_body);
+
+                     //table
+                     $(this).append(html.table_5col);
+
+                     //show data
                      $.ajax({
                              url: setting.nen_tuki+".html",
                              type: "get",
@@ -135,7 +285,7 @@
                    }); // return this.each(function(){
                  },// days_list:    function(options){
   };
-  
+
   //data-属性にoptionsをセット
   function set_option(element,options){
     var setting = $.extend(defaults,options);

@@ -1,5 +1,7 @@
 # jQuery Plugin thermometer.js
 
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/06.png)
+
 CSVファイルに記録されている温度、湿度を画面に表示するjQuery
  pluginです。
 

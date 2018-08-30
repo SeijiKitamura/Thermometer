@@ -6,6 +6,7 @@ CSVファイルに記録されている温度、湿度を画面に表示するjQ
 ## CSVファイルフォーマット
 
 CSVフォーマットサンプルです。実際のファイルには列名は不要です。
+
 |任意の番号|日付(YYYY-MM-DD|時(HH)|分(MM)|温度 |気圧   |湿度 |
 |----------|---------------|------|------|---- |----   |---- |
 | 1        | 2018-08-29    | 00   | 00   |30.16|1009.68|55.54|
@@ -82,7 +83,7 @@ HTMLに以下を追加してください。
 
 以下が表示されます。
 
-8月30日の画像
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/01.png)
 
 ### last_temp:
 指定日の最後のデータを表示します。
@@ -111,20 +112,17 @@ HTMLに以下を追加してください。
 </html>
 ```
 
-現在の最終の温度と湿度が表示させます。
+現在の最終の温度と湿度が表示されます。
 
-最新画像その1
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/02.png)
 
-日付を指定しその日の最終の温度と湿度を表示します。（2018年8月30日）
+日付を指定し場合、その日の最終の温度と湿度を表示します。（2018年8月1日）
 ```javascript
 $(function(){
-  var options={"temp_date": "2018-08-30"};
+  var options={"temp_date": "2018-08-01"};
   $("div#someting").last_temp("last_temp",options);
 });
 ```
-以下が表示されます。
-
-最新画像その2
 
 ### month_list
 CSVファイルが存在する年月一覧を表示します。
@@ -163,7 +161,7 @@ CSVファイルが存在する年月一覧を表示します。
 
 以下が表示されます。
 
-月別画像
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/03.png)
 
 表示されたデータにはクリックイベントが登録されています。
 希望の年月をクリックするとdays_listが実行されます。
@@ -214,10 +212,11 @@ CSVファイルが存在する年月一覧を表示します。
 
 div#somethingは上記YYYYMM.htmlが表示、div#data_panelは1日の温度を表示されます。
 
-days_listの画像
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/04.png)
 
 div#somethingに表示された行にはクリックイベントが登録されています。
 
-該当する日付をクリックするとその日のデータがdiv#data_panelに表示されます
+該当する日付をクリックするとその日のデータがdiv#data_panelに表示されます。  
+下記は8月29日をクリックした時に表示されるデータです。
 
-div#data_panelの画像
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/05.png)

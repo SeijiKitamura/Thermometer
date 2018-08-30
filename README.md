@@ -2,8 +2,10 @@
 
 ![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/06.png)
 
-CSVファイルに記録されている温度、湿度を画面に表示するjQuery
- pluginです。
+***
+
+CSVファイルに記録されている温度、湿度を画面に表示するjQuery pluginです。  
+Raspberry　Piに接続されている温度計から出力したデータを見るために作りました。
 
 ## CSVファイルフォーマット
 
@@ -44,10 +46,12 @@ HTMLに以下を追加してください。
 ```
 
 ## 使い方
-### minutes:
-分ごとのデータを表示します。
+### minutes: (毎分データ）
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/01.png)
 
-以下のHTMLを用意します。
+指定日の温度データを希望する間隔で表示することができます。
+
+(sample)
 ```html
 <!doctype html>
 <html lang=ja>
@@ -83,14 +87,13 @@ HTMLに以下を追加してください。
 * 時間: 9時以降のデータ
 * 間隔: 60分間隔
 
-以下が表示されます。
+### last_temp:　指定日の最後に計測したデータを表示します。
 
-![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/01.png)
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/02.png)
 
-### last_temp:
-指定日の最後のデータを表示します。
+日付を指定しない場合は最新温度、指定した場合はその日の最終温度が表示されます。
 
-以下のHTMLを用意し表示します。
+(sample)
 ```html
 <!doctype html>
 <html lang=ja>
@@ -114,10 +117,6 @@ HTMLに以下を追加してください。
 </html>
 ```
 
-現在の最終の温度と湿度が表示されます。
-
-![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/02.png)
-
 日付を指定し場合、その日の最終の温度と湿度を表示します。（2018年8月1日）
 ```javascript
 $(function(){
@@ -126,9 +125,12 @@ $(function(){
 });
 ```
 
-### month_list
-CSVファイルが存在する年月一覧を表示します。
+### month_list　CSVファイルが存在する年月一覧を表示します。
+
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/03.png)
+
 まず、ルートディレクトリに以下のHTMLを用意しファイル名をmonth_list.htmlとします。
+
 ```html
 <!-- month_list.html -->
 <td><a href="#data_panel">201812</a></td>
@@ -138,6 +140,9 @@ CSVファイルが存在する年月一覧を表示します。
 ```
 
 以下のHTMLを用意し表示します。
+表示されたデータにはクリックイベントが登録されています。
+希望の年月をクリックするとdays_listが実行されます。
+
 ```html
 <!doctype html>
 <html lang=ja>
@@ -161,16 +166,12 @@ CSVファイルが存在する年月一覧を表示します。
 </html>
 ```
 
-以下が表示されます。
 
-![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/03.png)
+### days_list:　ルートディレクトリにあるYYYYMM.html(YYYYMMは年月）を表示
+![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/04.png)
 
-表示されたデータにはクリックイベントが登録されています。
-希望の年月をクリックするとdays_listが実行されます。
-
-### days_list:
-このメソッドはルートディレクトリにあるYYYYMM.html(YYYYMMは年月）を表示します。
 1日の9時、12時、15時、18時、21時の温度を1行としてデータを表示します。
+
 まずは以下のようなHTMLを用意し、ファイル名をYYYYMM.html(YYYYMMは年月）とします。
 ```html
 <tr>
@@ -211,13 +212,7 @@ CSVファイルが存在する年月一覧を表示します。
   </script>
 
 ```
-
-div#somethingは上記YYYYMM.htmlが表示、div#data_panelは1日の温度を表示されます。
-
-![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/04.png)
-
 div#somethingに表示された行にはクリックイベントが登録されています。
-
 該当する日付をクリックするとその日のデータがdiv#data_panelに表示されます。  
 下記は8月29日をクリックした時に表示されるデータです。
 

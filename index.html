@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang=ja>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+-->
+
+    <script src="thermometer.js"></script>
+
+    <title>App Name</title>
+    <style>
+      body{ padding-top: 70px; }
+    </style>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+       <div class="container-fluid">
+         <div class="navbar-header">
+           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarExample" aria-expanded="false">
+              <span class="sr-only">Toggle Infomation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+           </button>
+           <a class="navbar navbar-brand" href="/">App Name</a>
+         </div> <!-- div class="navbar-header" -->
+
+         <div class="collapse navbar-collapse" id="navbarExample">
+           <ul class="nav navbar-nav">
+             <li><a href="/">最新温度</a></li>
+           </ul>
+         </div> <!-- div class="collapse navbar-collapse" id="navbarExample" -->
+       </div> <!-- div class="container-fluid" -->
+    </nav> <!-- nav class="navbar navbar-default navbar-fixed-top" -->
+
+    <div class="container">
+      <div class="page-header">
+         <h1 id="header_title"></h1>
+      </div> <!-- div class="page-header" -->
+
+      <div class="row">
+
+        <div class="col-md-4" id="left_zone">
+
+          <div class="col-md-12">
+            <div class="panel panel-primary" id="now_panel">
+            </div> <!-- div class="panel panel-primary" id="now_temp" -->
+          </div><!-- div class="col-md-12" -->
+
+<!--
+          <div class="col-md-12" >
+            <div class="panel panel-default" id="qucode_panel">
+              <div class="panel-body">
+                <div class="media">
+                  <div class="media-left">
+                    <div id="qrcode"></div>
+                  </div>
+
+                  <div class="media-body">
+                    <h4 class="media-heading">QRコード</h4>
+                    <p>
+                      この画面を表示するためのQRコードです。
+                      同一LAN(Wi-Fi)にいることが前提になります。
+                    </p>
+                  </div>
+                </div>
+              </div> 
+            </div> 
+          </div>
+-->
+          
+
+          <div class="col-md-12" >
+            <div class="panel panel-primary month_panel hidden-xs">
+            </div> <!-- div class="panel panel-primary month_panel" -->
+          </div><!-- div class="col-md-12" -->
+
+        </div><!-- div class="col-md-4" id="left_zone" -->
+
+        <div class="col-md-8" id="main_zone">
+
+          <div class="col-md-6">
+            <div class="panel panel-primary" id="today_panel">
+            </div>
+          </div><!-- div class="col-md-6" -->
+          
+          <div class="col-md-6">
+            <div class="panel panel-primary" id="yesterday_panel">
+            </div>
+          </div><!-- div class="col-md-6" -->
+
+          <div class="col-md-12">
+            <div class="panel panel-primary" id="day_panel">
+            </div><!-- div class="panel panel-primary" -->
+          </div><!-- div class="col-md-12" -->
+
+          <div class="col-md-6">
+            <div class="panel panel-primary" id="data_panel">
+<!-- 
+              <div class="panel-heading">
+                過去のデータ
+              </div>
+              <div class="panel-body">
+                日別一覧から表示したい日付を選んでください。
+              </div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>時間</th>
+                    <th>温度</th>
+                    <th>湿度</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+-->
+            </div><!-- div class="panel panel-primary" -->
+          </div><!-- div class="col-md-12" -->
+
+          <div class="col-md-12" >
+            <div class="visible-xs"> 
+              <div class="panel panel-primary month_panel">
+              </div> <!-- div class="panel panel-primary month_panel" -->
+            </div> <!-- div class="visible-xs" --> 
+          </div><!-- div class="col-md-12" -->
+
+        </div><!-- div class="col-md-8" id="main_zone" -->
+
+      </div><!-- div class="row" -->
+
+      <hr>
+      <p>Your Name </p>
+    </div><!-- div class="container" -->
+
+  </body>
+
+  <script>
+    $(function(){
+      var kinou = new Date();
+      kinou = new Date(kinou.setDate(kinou.getDate() - 1));
+
+      $("#today_panel").thermometer("minutes");
+      $("#yesterday_panel").thermometer("minutes",{temp_date: kinou});
+      $("#now_panel").thermometer("last_temp",{temp_date: new Date()});
+      $(".month_panel").thermometer("month_list");
+      $("#day_panel").thermometer("days_list");
+//      get_qrcode();
+    });
+
+//    //QRコード表示
+//    function get_qrcode(){
+//     $.ajax({
+//             url:  "ipaddress.txt",
+//             type: "get"})
+//      .done((data)=> {
+//        url_path="http://"+data;
+//        $("div#qrcode").qrcode({width:100,height:100,text: url_path});
+//      });
+//    }
+  </script>
+</html>

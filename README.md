@@ -131,6 +131,7 @@ $(function(){
 
 まず、ルートディレクトリに以下のHTMLを用意しファイル名をmonth_list.htmlとします。
 
+(sample)
 ```html
 <!-- month_list.html -->
 <td><a href="#data_panel">201812</a></td>
@@ -143,6 +144,7 @@ $(function(){
 表示されたデータにはクリックイベントが登録されています。
 希望の年月をクリックするとdays_listが実行されます。
 
+(sample)
 ```html
 <!doctype html>
 <html lang=ja>
@@ -173,6 +175,7 @@ $(function(){
 1日の9時、12時、15時、18時、21時の温度を1行としてデータを表示します。
 
 まずは以下のようなHTMLを用意し、ファイル名をYYYYMM.html(YYYYMMは年月）とします。
+(sample)
 ```html
 <tr>
   <td>YYYY-mm-dd</td>
@@ -186,6 +189,7 @@ $(function(){
 ```
 
 次に以下のようなHTMLを用意します。
+(sample)
 ```html
 <!doctype html>
 <html lang=ja>
@@ -217,3 +221,6 @@ div#somethingに表示された行にはクリックイベントが登録され�
 下記は8月29日をクリックした時に表示されるデータです。
 
 ![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/05.png)
+
+### index.htm
+すべてのmethodが表示できるページを作成しました。詳細はindex.htmlを確認してください。

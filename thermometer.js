@@ -114,6 +114,9 @@
     minutes:     function(options){
                    return this.each(function(){
                      var setting = set_option($(this),options);
+                     //
+                     $(this).empty();
+
                      //panel-heading
                      var title  = date_to_string(setting.temp_date,"-");
                      var panel_heading = html.panel_heading(title);

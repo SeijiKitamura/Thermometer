@@ -223,4 +223,5 @@ div#somethingに表示された行にはクリックイベントが登録され�
 ![2018年8月30日](https://raw.github.com/wiki/SeijiKitamura/thermometer/05.png)
 
 ### index.htm
-すべてのmethodが表示できるページを作成しました。詳細はindex.htmlを確認してください。
+すべてのmethodを使用したページ[index.html](https://github.com/SeijiKitamura/thermometer/blob/master/index.html)を作成しました。  
+jQuery、bootstrap3のCDN付きなのでこちらを編集したほうが早いかも。
